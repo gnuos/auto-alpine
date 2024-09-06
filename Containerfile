@@ -1,6 +1,6 @@
 FROM scratch AS minimal
 
-ADD rootfs.tar.gz /
+ADD dist/rootfs.tar.gz /
 
 FROM scratch AS tz
 COPY --from=minimal / /
