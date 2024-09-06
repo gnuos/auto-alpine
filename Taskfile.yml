@@ -34,7 +34,6 @@ tasks:
       - "echo -e '\\e[1;31mBuilding rootfs.tar.gz...\\e[m'"
       - "sudo tar -zcpf ./dist/rootfs.tar.gz -C ./rootfs ."
       - "sudo chown `id -un` ./dist/rootfs.tar.gz"
-      - task: pod
   container:
     desc: "把制作的根文件系统导入到podman镜像库中"
     cmds:
