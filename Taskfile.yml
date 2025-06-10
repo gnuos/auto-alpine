@@ -23,8 +23,8 @@ tasks:
       - sudo mkdir rootfs
       - sudo tar -zxpf base.tar.gz -C rootfs
       - sudo cp -f profile rootfs/etc/profile
-      - "sudo echo 'nameserver 114.114.115.115' >> rootfs/etc/resolv.conf"
-      - "sudo echo 'nameserver 9.9.9.9' >> rootfs/etc/resolv.conf"
+      - sudo echo 'nameserver 114.114.115.115' >> rootfs/etc/resolv.conf
+      - sudo echo 'nameserver 9.9.9.9' >> rootfs/etc/resolv.conf
       - sudo chroot rootfs /bin/sed -i 's|{{.ALPINE_CDN}}|{{.ALPINE_MIRROR}}|g' /etc/apk/repositories
       - sudo chroot rootfs /sbin/apk update
       - sudo chroot rootfs /sbin/apk upgrade
@@ -39,7 +39,7 @@ tasks:
   container:
     desc: "把制作的根文件系统导入到podman镜像库中"
     cmds:
-      - podman manifest create alpine-base
+      - podman manifest exists alpine-base || podman manifest create alpine-base 
       - podman build --platform linux/amd64 --manifest alpine-base --tag alpine:latest .
       - podman manifest inspect alpine-base
       - podman image prune -f
@@ -49,6 +49,7 @@ tasks:
       - sudo rm -f base.tar.gz
       - sudo rm -f profile
       - sudo rm -rf rootfs
+      - podman version && sudo podman image prune -f
   base:
     desc: "下载一个Alpine Linux指定版本的mini rootfs压缩包作为基础的rootfs树"
     cmds:
